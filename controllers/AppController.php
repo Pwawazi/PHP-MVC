@@ -10,6 +10,8 @@ use app\base\Request;
 use app\models\User;
 use app\models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 class AppController extends Controller
@@ -37,6 +39,11 @@ class AppController extends Controller
     public function contact()
     {   
         $user = Application::$app->user();
+
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
         return $this->render('contact', ['user' => $user]);
     }
 
@@ -58,6 +65,11 @@ class AppController extends Controller
         $user = Application::$app->user();
         $params = $request->getRouteParams();
         $products = Product::all();
+
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
 
         if($params)
         {
@@ -94,20 +106,36 @@ class AppController extends Controller
     }
 
     /** 
-     * Return the shop page
+     * Return the users list page
      * 
      */
     public function users(Request $request)
     {
         // $user = Application::$app->user();
         $users = User::all();
+
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
+
         $product = Product::all();
-        return $this->render('users', [
+        return $this->render('users_list', [
             'users' => $users,
             'product' => $product
         ]);
     }
 
+    /** 
+     * Return the users in json format
+     * 
+     */
+    public function usersJson(Request $request)
+    {
+        // $user = Application::$app->user();
+        $users = User::all()->toJson();
+        return $users;
+    }
 
     /**
      * 
@@ -120,6 +148,11 @@ class AppController extends Controller
         $errors = array();
         $input = [];
 
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
+        
         if($user->role_id != 2)
             {
                 return Application::$app->response->redirect('/'); 
@@ -238,6 +271,105 @@ class AppController extends Controller
             'user' => $user,
             'products' => $products
         ]);
+    }
+
+    /**
+     * 
+     * Contact form for the vendor of specific product
+     */
+    public function contactVendor(Request $request)
+    {
+        $user = Application::$app->user();
+        $products = Product::all();
+        $params = $request->getRouteParams();
+
+        if($params)
+        {
+            $some_products = Product::latest()->take(2)->get();
+
+            try 
+            {
+                $product = Product::findOrFail(intval($params['id']));
+            } 
+            catch (ModelNotFoundException $ex) 
+            {
+                Application::$app->session->setFlash('danger', 'No such product!');
+                return $this->render('shop', [
+                    'user' => $user,
+                    'vendor' => $product->user->firstname,
+                    'products' => $products
+                ]);
+            }
+
+            // echo '<pre>';
+            // var_dump($product->user->firstname);
+            // echo '</pre>';
+            // exit;
+            $vendor = $product->user;
+            return $this->render('profile', [
+                'user' => $user,
+                'product' => $product,
+                'vendor' => $vendor,
+                'some_products' => $some_products
+            ]);
+        }
+        
+    }
+
+    /**
+     * 
+     * Send email to notify the vendor
+     * 
+     */
+    public function emailVendor(Request $request)
+    {
+        if($request->isPost())
+        {
+            Application::$app->request->getBody();
+            $name = $request->getBody()['name'];
+            $from = $request->getBody()['from_email'];
+            $to = $request->getBody()['to_email'];
+            $phone = $request->getBody()['phone'];
+            $subject = $request->getBody()['subject'];
+            $message = $request->getBody()['message'];
+            // echo '<pre>';
+            // var_dump(Application::$app->request->getBody());
+            // echo '</pre>';
+            // exit;
+            $vendor = User::where('email', '=', $to)->first();
+            $user = Application::$app->user();
+            $text = <<< Body
+                Hello $vendor->firstname,
+
+                $user->firstname says:
+
+                $message
+
+                You can reach them at $phone or $from.
+
+                Thank you for using our services.
+            Body;
+            $phpmailer = new PHPMailer();
+            $phpmailer->isSMTP();
+            $phpmailer->Host = 'smtp.mailtrap.io';
+            $phpmailer->SMTPAuth = true;
+            $phpmailer->Port = 2525;
+            $phpmailer->Username = Application::$mailtrapUsername;
+            $phpmailer->Password = Application::$mailtrapPassword;  
+            $phpmailer->setFrom('support@mahindionline.com', 'Mahindi Online');           
+            $phpmailer->addAddress($to, $vendor->firstname);
+            $phpmailer->isHTML(true);                                  
+            $phpmailer->Subject = $subject;
+            $phpmailer->Body    = $text;
+            $phpmailer->AltBody = $text;
+            $phpmailer->send();
+
+            $products = Product::all();
+            return $this->render('shop', [
+                'user' => $user,
+                'products' => $products
+            ]);
+        }
     }
 
 }

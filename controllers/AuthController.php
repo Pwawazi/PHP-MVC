@@ -11,6 +11,11 @@ use app\base\Response;
 use app\models\County;
 use app\base\Controller;
 use app\base\Application;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 
@@ -128,10 +133,49 @@ class AuthController extends Controller
                                     'password' => password_hash($password,PASSWORD_BCRYPT), 
                                 ]);
                 
-                echo('<pre>');
+                // echo('<pre>');
                 // var_dump($user->role()->get());
-                echo('</pre>');
-                exit;
+                // echo('</pre>');
+                // exit;
+
+
+                /**Send confirmation mail to the user */
+                $text = <<< Body
+                Hello $firstname $lastname,
+
+                Thank you for signing up on Mahindi Online!
+                Body;
+                //Using Symphony
+                // $sending_email= (new Email())
+                //                 ->from('support@mahindionline.com')
+                //                 ->to('wawaziphil@gmail.com')
+                //                 ->subject('Thank you for registering!')
+                //                 ->text($text);
+
+                // $dsn = 'smtp://user:pass@smtp.example.com:25';
+                // // $dsn = 'gmail+smtp://wawaziphil@gmail.com:231231ZI@default';
+                // // $dsn = 'gmail://stackoverflow@gmail.com:admin123@default?verify_peer=0';
+                // $transport = Transport::fromDsn($dsn);
+                // $mailer = new Mailer($transport);
+                // $mailer->send($sending_email);
+    
+                //Using PHPMailer
+                $phpmailer = new PHPMailer();
+                $phpmailer->isSMTP();
+                $phpmailer->Host = 'smtp.mailtrap.io';
+                $phpmailer->SMTPAuth = true;
+                $phpmailer->Port = 2525;
+                $phpmailer->Username = Application::$mailtrapUsername;
+                $phpmailer->Password = Application::$mailtrapPassword;  
+                $phpmailer->setFrom('support@mahindionline.com', 'Mahindi Online');           
+                $phpmailer->addAddress($email, $firstname);
+                $phpmailer->isHTML(true);                                  
+                $phpmailer->Subject = 'Thank you for registering!';
+                $phpmailer->Body    = $text;
+                $phpmailer->AltBody = $text;
+                $phpmailer->send();
+
+
                 Application::$app->session->setFlash('success', 'Thanks for registering');
                 return Application::$app->response->redirect('/login');         
             }
@@ -221,6 +265,12 @@ class AuthController extends Controller
     public function profile()
     {
         $user = User::find($_SESSION['user']);
+
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
+        
         return $this->render('profile', ['user' => $user]);
     }
 

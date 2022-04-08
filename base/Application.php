@@ -7,6 +7,8 @@ use app\models\User;
 class Application
 {
     public static string $ROOT_DIR;
+    public static string $mailtrapUsername;
+    public static string $mailtrapPassword;
     public string $layout = 'main';
     public Router $router;
     public Request $request;
@@ -18,11 +20,13 @@ class Application
     public ?Controller $controller = null;
     public View $view;
 
-    public function __construct($rootPath, array $config, array $routeList)
+    public function __construct($rootPath, array $config, array $routeList, $mailtrapUsername, $mailtrapPassword)
     {   
         self::$ROOT_DIR = $rootPath;
         self::$app = $this;
         self::$routeList = $routeList;
+        self::$mailtrapUsername = $mailtrapUsername;
+        self::$mailtrapPassword = $mailtrapPassword;
         $this->user = null;
         $this->request = new Request();
         $this->response = new Response();

@@ -9,7 +9,7 @@ use app\base\Application;
 //     return Application::$app->response->redirect('/login'); 
 // }
 
-$this->title = 'Farmland | Home';
+$this->title = 'Mahindi Online | Home';
 
 ?>
 

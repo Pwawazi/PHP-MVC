@@ -1,6 +1,6 @@
 <?php
 	
-$this->title = 'Farmland | Shop';
+$this->title = 'Mahindi Online | Shop';
 
 ?>
 
@@ -34,10 +34,10 @@ $this->title = 'Farmland | Shop';
 						<p class="single-product-pricing"><span>Per Unit</span> KES<?php echo $product->price?></p>
 						<p><?php echo $product->product_description ?></p>
 						<div class="single-product-form">
-							<form action="index.html">
+							<!-- <form action="index.html">
 								<input type="number" placeholder="0">
-							</form>
-							<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+							</form> -->
+							<a href="<?php echo '/contact-vendor/'.$product->id ?>" class="cart-btn">Contact Vendor <i class="fas fa-phone"></i></a>
 							<p><strong>Categories: </strong>Produce, Organic</p>
 						</div>
 						<h4>Share:</h4>

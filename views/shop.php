@@ -1,6 +1,6 @@
 <?php
 	
-$this->title = 'Farmland | Shop';
+$this->title = 'Mahindi Online | Shop';
 
 ?>
 	
@@ -51,7 +51,7 @@ $this->title = 'Farmland | Shop';
 							<a class="cart-btn" href="javascript:;" onclick="document.getElementById('<?php echo $product->id ?>').submit()"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
 							<input type="hidden" name="product_id" value="<?php echo $product->id ?>">
 						</form> -->
-						<a href="/contact-vendor" class="cart-btn">Contact Vendor <i class="fas fa-phone"></i></a>
+						<a href="<?php echo '/contact-vendor/'.$product->id ?>" class="cart-btn">Contact Vendor <i class="fas fa-phone"></i></a>
 					</div>
 				</div>
 			<?php endforeach; ?>

@@ -1,10 +1,12 @@
 <?php
-  use app\base\Application;
+
+use app\base\Application;
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,16 +42,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
+
 <body>
-	
+
 	<!--PreLoader-->
-    <div class="loader">
-        <div class="loader-inner">
-            <div class="circle"></div>
-        </div>
-    </div>
-    <!--PreLoader Ends-->
-	
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	<!--PreLoader Ends-->
+
 	<!-- header -->
 	<div class="top-header-area" id="sticker">
 		<div class="container">
@@ -59,7 +62,7 @@
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="/">
-								<img src="/assets/img/logo.png" alt="">
+								<img src="/assets/img/mo_logo.png" alt="">
 							</a>
 						</div>
 						<!-- logo -->
@@ -73,32 +76,32 @@
 								<li><a href="/news">News</a></li>
 								<li><a href="/contact">Contact</a></li>
 
-                <?php if( Application::$app->isGuest() ): ?>
-                
-                <li>
-                  <a href="/login">Login</a>
-				  <a href="/register">Register</a>
-                </li>
-                <?php else: ?>
-				<li><a href="/profile">Profile</a></li>
-				<li><a href="/shop">Shop</a>
-					<ul class="sub-menu">
-						<?php if((Application::$app->user()->role_id) == 2): ?>
-							<li><a href="/add-product">Add Product</a></li>
-						<?php endif; ?>
-						<li><a href="/checkout">Check Out</a></li>
-						<li><a href="/shop">Products</a></li>
-					</ul>
-				</li>
-				<li>
-					<div class="header-icons">
-						<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
-						<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-						<a href="/logout">Logout</a>
-					</div>
-				</li>
-                
-                <?php endif ?>
+								<?php if (Application::$app->isGuest()) : ?>
+
+									<li>
+										<a href="/login">Login</a>
+										<a href="/register">Register</a>
+									</li>
+								<?php else : ?>
+									<li><a href="/profile">Profile</a></li>
+									<li><a href="/shop">Shop</a>
+										<ul class="sub-menu">
+											<?php if ((Application::$app->user()->role_id) == 2) : ?>
+												<li><a href="/add-product">Add Product</a></li>
+											<?php endif; ?>
+											<li><a href="/checkout">Check Out</a></li>
+											<li><a href="/shop">Products</a></li>
+										</ul>
+									</li>
+									<li>
+										<div class="header-icons">
+											<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
+											<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+											<a href="/logout">Logout</a>
+										</div>
+									</li>
+
+								<?php endif ?>
 
 							</ul>
 						</nav>
@@ -111,7 +114,7 @@
 		</div>
 	</div>
 	<!-- end header -->
-	
+
 	<!-- search area -->
 	<div class="search-area">
 		<div class="container">
@@ -133,24 +136,24 @@
 
 
 
-<!-- PHP SECTION -->
-        <?php if(Application::$app->session->getFlash('success')): ?>
-            <div class="alertContainer">
-              <?php echo Application::$app->session->getFlash('success')?>
-            </div>
-          
-        <?php endif; ?>
+	<!-- PHP SECTION
+	<?php if (Application::$app->session->getFlash('success')) : ?>
+		<div class="alertContainer">
+			<?php echo Application::$app->session->getFlash('success') ?>
+		</div>
 
-        <?php if(Application::$app->session->getFlash('warning')): ?>
-          <div class="container">
-            <div class="alert alert-danger my-3">
-              <?php echo Application::$app->session->getFlash('warning')?>
-            </div>
-          </div>
-        <?php endif; ?>
-        {{content}}
+	<?php endif; ?>
 
-<!-- END OF PHP SECTION -->
+	<?php if (Application::$app->session->getFlash('warning')) : ?>
+		<div class="container">
+			<div class="alert alert-danger my-3">
+				<?php echo Application::$app->session->getFlash('warning') ?>
+			</div>
+		</div>
+	<?php endif; ?> -->
+	{{content}}
+
+	<!-- END OF PHP SECTION -->
 
 
 
@@ -168,7 +171,7 @@
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+							<li>Tom Mboya Street, Nairobi.</li>
 							<li>support@fruitkha.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>
@@ -200,13 +203,13 @@
 		</div>
 	</div>
 	<!-- end footer -->
-	
+
 	<!-- copyright -->
 	<div class="copyright">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
-					<p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>,  All Rights Reserved.<br>
+					<p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All Rights Reserved.<br>
 						Distributed By - <a href="https://themewagon.com/">Themewagon</a>
 					</p>
 				</div>
@@ -225,7 +228,7 @@
 		</div>
 	</div>
 	<!-- end copyright -->
-	
+
 	<!-- jquery -->
 	<script src="/assets/js/jquery-1.11.3.min.js"></script>
 	<!-- bootstrap -->
@@ -248,4 +251,5 @@
 	<script src="/assets/js/main.js"></script>
 
 </body>
+
 </html>

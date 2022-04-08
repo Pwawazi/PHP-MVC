@@ -19,10 +19,14 @@ $routeList = array(
         '/shop', '/shop/{id}' => [AppController::class, 'shop'], 
         '/add-product' => [AppController::class, 'addProduct'], 
         '/cart' => [AppController::class, 'cart'], 
-        '/users' => [AppController::class, 'users']
+        '/users' => [AppController::class, 'users'],
+        '/contact-vendor/{id}' => [AppController::class, 'contactVendor'],
+        '/email-vendor' => [AppController::class, 'emailVendor']
 );
 
-$app = new Application(dirname(__DIR__), $config, $routeList);
+$mailtrapUsername = 'bbc6f99cf9fc90';
+$mailtrapPassword = '6156d45543055b';
+$app = new Application(dirname(__DIR__), $config, $routeList, $mailtrapUsername, $mailtrapPassword);
 
 $app->router->get('/', [AppController::class, 'home']);
 
@@ -43,6 +47,9 @@ $app->router->get('/add-product', [AppController::class, 'addProduct']);
 $app->router->post('/add-product', [AppController::class, 'addProduct']);
 $app->router->get('/cart', [AppController::class, 'cart']);
 $app->router->get('/users', [AppController::class, 'users']);
+$app->router->get('/users-json', [AppController::class, 'usersJson']);
+$app->router->get('/contact-vendor/{id:\d+}', [AppController::class, 'contactVendor']);
+$app->router->post('/email-vendor', [AppController::class, 'emailVendor']);
 
 
 

@@ -31,12 +31,12 @@ class User extends Model
 
     public function county()
     {
-        return $this->belongsToMany(County::class);
+        return $this->belongsTo(County::class);
     }
 
     public function role()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
 

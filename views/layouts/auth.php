@@ -59,7 +59,7 @@ use app\base\Application;
 						<!-- logo -->
 						<div class="site-logo">
 							<a href="/">
-								<img src="/assets/img/logo.png" alt="">
+								<img src="/assets/img/mo_logo.png" alt="">
 							</a>
 						</div>
 						<!-- logo -->
@@ -135,7 +135,7 @@ use app\base\Application;
 	<?php if (Application::$app->session->getFlash('success')) : ?>
 		<div class="alertContainer">
 			<?php echo Application::$app->session->getFlash('success') ?>
-			1 </div>
+		</div>
 
 	<?php endif; ?>
 
@@ -169,7 +169,7 @@ use app\base\Application;
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+							<li>Tom Mboya Street, Nairobi.</li>
 							<li>support@fruitkha.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>

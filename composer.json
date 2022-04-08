@@ -14,6 +14,9 @@
     ],
     "require": {
         "vlucas/phpdotenv": "^5.4",
-        "illuminate/database": "^9.1"
+        "illuminate/database": "^9.1",
+        "symfony/mailer": "^6.0",
+        "symfony/google-mailer": "^6.0",
+        "phpmailer/phpmailer": "^6.6"
     }
 }

@@ -4,7 +4,7 @@ namespace app\base;
 
 class View
 {
-    public string $title = '';
+    public string $title = 'Mahindi Online';
 
     public function renderView($view, $params = [])
     {

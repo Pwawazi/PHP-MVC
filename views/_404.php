@@ -14,7 +14,7 @@ use app\base\Application;
 	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
 	<!-- title -->
-	<title>Farmland | 404 </title>
+	<title>Mahindi Online | 404 </title>
 
 	<!-- favicon -->
 	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
@@ -73,30 +73,30 @@ use app\base\Application;
 								<li><a href="/news">News</a></li>
 								<li><a href="/contact">Contact</a></li>
 
-                <?php if( Application::$app->isGuest() ): ?>
-                
-                <li>
-                  <a href="/login">Login</a>
-				  <a href="/register">Register</a>
-                </li>
-                <?php else: ?>
-				<li><a href="/profile">Profile</a></li>
-				<li><a href="/shop">Shop</a>
-					<ul class="sub-menu">
-						<li><a href="/add-product">Add Product</a></li>
-						<li><a href="/checkout">Check Out</a></li>
-						<li><a href="/shop">Products</a></li>
-					</ul>
-				</li>
-				<li>
-					<div class="header-icons">
-						<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
-						<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-						<a href="/logout">Logout</a>
-					</div>
-				</li>
-                
-                <?php endif ?>
+								<?php if (Application::$app->isGuest()) : ?>
+
+									<li>
+										<a href="/login">Login</a>
+										<a href="/register">Register</a>
+									</li>
+								<?php else : ?>
+									<li><a href="/profile">Profile</a></li>
+									<li><a href="/shop">Shop</a>
+										<ul class="sub-menu">
+											<li><a href="/add-product">Add Product</a></li>
+											<li><a href="/checkout">Check Out</a></li>
+											<li><a href="/shop">Products</a></li>
+										</ul>
+									</li>
+									<li>
+										<div class="header-icons">
+											<a class="shopping-cart" href="/cart"><i class="fas fa-shopping-cart"></i></a>
+											<a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+											<a href="/logout">Logout</a>
+										</div>
+									</li>
+
+								<?php endif ?>
 
 							</ul>
 						</nav>
@@ -109,7 +109,7 @@ use app\base\Application;
 		</div>
 	</div>
 	<!-- end header -->
-	
+
 	<!-- search area -->
 	<div class="search-area">
 		<div class="container">
@@ -208,7 +208,7 @@ use app\base\Application;
 					<div class="footer-box get-in-touch">
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
-							<li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+							<li>Tom Mboya Street, Nairobi.</li>
 							<li>support@fruitkha.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>

@@ -1,6 +1,6 @@
 <?php
 
-$this->title = 'Farmland | Cart';
+$this->title = 'Mahindi Online | Cart';
 
 ?>
 	
