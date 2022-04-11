@@ -2,10 +2,15 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__,1));
+$dotenv->load();
+
 use app\base\Application;
 use app\controllers\AppController;
 use app\controllers\AuthController;
 use app\models\User;
+
+
 
 $config = [
     'userClass' => User::class
@@ -20,13 +25,19 @@ $routeList = array(
         '/add-product' => [AppController::class, 'addProduct'], 
         '/cart' => [AppController::class, 'cart'], 
         '/users' => [AppController::class, 'users'],
+        '/products-list' => [AppController::class, 'products_list'],
         '/contact-vendor/{id}' => [AppController::class, 'contactVendor'],
         '/email-vendor' => [AppController::class, 'emailVendor']
 );
 
-$mailtrapUsername = 'bbc6f99cf9fc90';
-$mailtrapPassword = '6156d45543055b';
-$app = new Application(dirname(__DIR__), $config, $routeList, $mailtrapUsername, $mailtrapPassword);
+
+$mailtrapUsername = $_ENV['MAILTRAPUSERNAME'];
+$mailtrapPassword = $_ENV['MAILTRAPPASSWORD'];
+$recaptcha_key = $_ENV['RECAPTCHA_V3_SECRET_KEY'];
+$recaptcha_site_key = $_ENV['RECAPTCHA_V3_SITE_KEY'];
+
+
+$app = new Application(dirname(__DIR__), $config, $routeList, $mailtrapUsername, $mailtrapPassword, $recaptcha_key, $recaptcha_site_key);
 
 $app->router->get('/', [AppController::class, 'home']);
 
@@ -48,6 +59,7 @@ $app->router->post('/add-product', [AppController::class, 'addProduct']);
 $app->router->get('/cart', [AppController::class, 'cart']);
 $app->router->get('/users', [AppController::class, 'users']);
 $app->router->get('/users-json', [AppController::class, 'usersJson']);
+$app->router->get('/products-list', [AppController::class, 'products_list']);
 $app->router->get('/contact-vendor/{id:\d+}', [AppController::class, 'contactVendor']);
 $app->router->post('/email-vendor', [AppController::class, 'emailVendor']);
 

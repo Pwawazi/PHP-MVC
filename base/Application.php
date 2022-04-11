@@ -9,6 +9,8 @@ class Application
     public static string $ROOT_DIR;
     public static string $mailtrapUsername;
     public static string $mailtrapPassword;
+    public static string $recaptcha_key;
+    public static string $recaptcha_site_key;
     public string $layout = 'main';
     public Router $router;
     public Request $request;
@@ -20,13 +22,15 @@ class Application
     public ?Controller $controller = null;
     public View $view;
 
-    public function __construct($rootPath, array $config, array $routeList, $mailtrapUsername, $mailtrapPassword)
+    public function __construct($rootPath, array $config, array $routeList, $mailtrapUsername, $mailtrapPassword, $recaptcha_key, $recaptcha_site_key)
     {   
         self::$ROOT_DIR = $rootPath;
         self::$app = $this;
         self::$routeList = $routeList;
         self::$mailtrapUsername = $mailtrapUsername;
         self::$mailtrapPassword = $mailtrapPassword;
+        self::$recaptcha_key = $recaptcha_key;
+        self::$recaptcha_site_key = $recaptcha_site_key;
         $this->user = null;
         $this->request = new Request();
         $this->response = new Response();

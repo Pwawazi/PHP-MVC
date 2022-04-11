@@ -7,6 +7,7 @@ require __DIR__.'/../base/Database.php';
 use app\base\Application;
 use app\base\Controller;
 use app\base\Request;
+use app\models\County;
 use app\models\User;
 use app\models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -136,6 +137,27 @@ class AppController extends Controller
         $users = User::all()->toJson();
         return $users;
     }
+
+
+    /** 
+     * Return the users list page
+     * 
+     */
+    public function products_list(Request $request)
+    {
+        // $user = Application::$app->user();
+        $products = Product::all();
+
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
+
+        return $this->render('products_list', [
+            'products' => $products
+        ]);
+    }
+
 
     /**
      * 

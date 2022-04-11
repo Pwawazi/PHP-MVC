@@ -38,6 +38,11 @@ use app\base\Application;
 	<!-- responsive -->
 	<link rel="stylesheet" href="/assets/css/responsive.css">
 
+	<!-- JQUERY -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<!-- RECAPTCHA -->
+	<script src="https://www.google.com/recaptcha/api.js?render=6LfeXAkfAAAAAMQp_n5eSgi58gD-noSDK1TXNo1D"></script>
+
 </head>
 
 <body>

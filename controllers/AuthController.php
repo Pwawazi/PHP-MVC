@@ -10,12 +10,13 @@ use app\base\Request;
 use app\base\Response;
 use app\models\County;
 use app\base\Controller;
+use ReCaptcha\ReCaptcha;
 use app\base\Application;
 use Symfony\Component\Mime\Email;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
 
 
 
@@ -202,50 +203,70 @@ class AuthController extends Controller
 
         $errors = array();
         $input = [];
+        $recaptcha_site_key = Application::$recaptcha_site_key;
 
         if($request->isPost())
         {   
+            $token = $_POST['token'];
+            $action = $_POST['action'];
             
-            Application::$app->request->getBody();
+            // use the reCAPTCHA PHP client library for validation
+            $recaptcha = new ReCaptcha(Application::$recaptcha_key);
+            $resp = $recaptcha->setExpectedAction($action)
+                            ->setScoreThreshold(0.5)
+                            ->verify($token, $_SERVER['REMOTE_ADDR']);
+            
+            // verify the response
+            if ($resp->isSuccess()) {
+                // valid submission
+                // go ahead and do necessary stuff
+                Application::$app->request->getBody();
         
-            $email = $request->getBody()['email'];
-            $password = $request->getBody()['password'];
+                $email = $request->getBody()['email'];
+                $password = $request->getBody()['password'];
 
-            if(!$email)
-            {
-                $errors['email'] = 'This field is required';
-            }
-            
-            $user = User::where('email', '=', $email)->first();
+                if(!$email)
+                {
+                    $errors['email'] = 'This field is required';
+                }
+                
+                $user = User::where('email', '=', $email)->first();
 
-            if(empty($user))
-            {
-                $errors['email'] = 'Invalid Credentials';
-            }
+                if(empty($user))
+                {
+                    $errors['email'] = 'Invalid Credentials';
+                }
 
-            // echo '<pre>';
-            // var_dump(password_verify($password, $user->password));
-            // echo '</pre>';
-            // exit;
+                // echo '<pre>';
+                // var_dump(password_verify($password, $user->password));
+                // echo '</pre>';
+                // exit;
 
-            if(password_verify($password, $user->password) === false)
-            {
-                $errors['password'] = 'Invalid Credentials';
-            }
+                if(password_verify($password, $user->password) === false)
+                {
+                    $errors['password'] = 'Invalid Credentials';
+                }
 
 
-            if(sizeof($errors) == 0)
-            {
-                Application::$app->session->setFlash('success', 'Login successful');
-                Application::$app->login($user);
-                return Application::$app->response->redirect('/');         
+                if(sizeof($errors) == 0)
+                {
+                    Application::$app->session->setFlash('success', 'Login successful');
+                    Application::$app->login($user);
+                    return Application::$app->response->redirect('/');         
+                }
+
+            } else {
+                // collect errors and display it
+                $errors['recaptcha_errors'] = $resp->getErrorCodes();
+                $errors['errorcodes'] = 'Recaptcha Failed. Please try again';
             }
         }
 
         $this->setLayout('auth');
         return $this->render('login', [
             'errors' => $errors,
-            'input' => $input
+            'input' => $input,
+            'recaptcha_site_key' => $recaptcha_site_key
         ]);
     }
 

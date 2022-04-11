@@ -13,11 +13,11 @@ $this->title = 'Mahindi Online | Login';
                 </div>
                 <div id="form_status"></div>
                 <div class="contact-form">
-                    <form action="" method="post">
+                    <form id="loginForm" action="" method="post">
                         
                         <div class="form-group">
                             <label>Email address</label>
-                            <input type="email" name="email" class="form-control" value="<?php echo $input['email']?>" required>
+                            <input type="email" name="email" id="email" class="form-control" value="<?php echo $input['email']?>" required>
                             <div class="text-danger p-2">
                                 <small><?php echo ($errors['email'])?></small>    
                             </div>
@@ -26,7 +26,7 @@ $this->title = 'Mahindi Online | Login';
 
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
+                            <input type="password" name="password" id="password" class="form-control" required>
                             <div class="text-danger p-2">
                                 <small><?php echo ($errors['password'])?></small>    
                             </div>
@@ -34,6 +34,10 @@ $this->title = 'Mahindi Online | Login';
 
 
                         <button type="submit" class="btn btn-warning">Submit</button>
+
+                        <div class="form-group">
+                            <small><?php echo $errors['errorcodes']?> </small>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -44,38 +48,21 @@ $this->title = 'Mahindi Online | Login';
 </div>
 
 
-<!-- breadcrumb-section -->
-<!-- <div class="breadcrumb-section breadcrumb-bg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="breadcrumb-text">
-						<h1>Login</h1>
-                        <form action="" method="post">
-                        
-                        <div class="form-group">
-                            <label>Email address</label>
-                            <input type="email" name="email" class="form-control" value="<?php echo $input['email']?>" required>
-                            <div class="text-danger p-2">
-                                <small><?php echo ($errors['email'])?></small>    
-                            </div>
-                            <small class="form-text text-muted">We'll never share your email with anyone else.</small>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                            <div class="text-danger p-2">
-                                <small><?php echo ($errors['password'])?></small>    
-                            </div>
-                        </div>
-
-
-                        <button type="submit" class="btn btn-warning">Submit</button>
-                    </form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
-	<!-- end breadcrumb section -->
+    <!-- Recaptcha script -->
+    <script>
+        $('#loginForm').submit(function(event) {
+            event.preventDefault();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var recaptcha_site_key = '<?php echo $recaptcha_site_key ?>';
+    
+            grecaptcha.ready(function() {
+                grecaptcha.execute(recaptcha_site_key, {action: ''}).then(function(token) {
+                    $('#loginForm').prepend('<input type="hidden" name="token" value="' + token + '">');
+                    $('#loginForm').prepend('<input type="hidden" name="action" value="">');
+                    $('#loginForm').unbind('submit').submit();
+                });;
+            });
+    });
+    </script>
