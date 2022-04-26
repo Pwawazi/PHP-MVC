@@ -38,6 +38,11 @@ $this->title = 'Mahindi Online | Shop';
 								<input type="number" placeholder="0">
 							</form> -->
 							<a href="<?php echo '/contact-vendor/'.$product->id ?>" class="cart-btn">Contact Vendor <i class="fas fa-phone"></i></a>
+
+							<?php if ($product->user == $user):?>
+							<a href="<?php echo '/edit-product/'.$product->id ?>" class="cart-btn">Edit Product</a>
+							<?php endif ?>
+
 							<p><strong>Categories: </strong>Produce, Organic</p>
 						</div>
 						<h4>Share:</h4>

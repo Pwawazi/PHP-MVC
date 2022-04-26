@@ -166,8 +166,8 @@ class AuthController extends Controller
                 $phpmailer->Host = 'smtp.mailtrap.io';
                 $phpmailer->SMTPAuth = true;
                 $phpmailer->Port = 2525;
-                $phpmailer->Username = Application::$mailtrapUsername;
-                $phpmailer->Password = Application::$mailtrapPassword;  
+                $phpmailer->Username = $_ENV['MAILTRAPUSERNAME'];
+                $phpmailer->Password = $_ENV['MAILTRAPPASSWORD'];  
                 $phpmailer->setFrom('support@mahindionline.com', 'Mahindi Online');           
                 $phpmailer->addAddress($email, $firstname);
                 $phpmailer->isHTML(true);                                  
@@ -203,7 +203,9 @@ class AuthController extends Controller
 
         $errors = array();
         $input = [];
-        $recaptcha_site_key = Application::$recaptcha_site_key;
+
+        $recaptcha_key = $_ENV['RECAPTCHA_V3_SECRET_KEY'];
+        $recaptcha_site_key = $_ENV['RECAPTCHA_V3_SITE_KEY'];
 
         if($request->isPost())
         {   
@@ -211,7 +213,7 @@ class AuthController extends Controller
             $action = $_POST['action'];
             
             // use the reCAPTCHA PHP client library for validation
-            $recaptcha = new ReCaptcha(Application::$recaptcha_key);
+            $recaptcha = new ReCaptcha($recaptcha_key);
             $resp = $recaptcha->setExpectedAction($action)
                             ->setScoreThreshold(0.5)
                             ->verify($token, $_SERVER['REMOTE_ADDR']);

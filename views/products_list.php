@@ -1,6 +1,6 @@
 <?php
 
-$this->title = 'Mahindi Online | Users';
+$this->title = 'Mahindi Online | All Products';
 
 ?>
 
@@ -19,14 +19,17 @@ $this->title = 'Mahindi Online | Users';
 </div>
 <!-- end breadcrumb section -->
 
-<!-- users Table -->
-<div class="d-flex justify-content-around m-2">
+<!-- products Table -->
+
+<!-- <div class="d-flex justify-content-around m-2">
     <input class="form-control px-5 mr-3" type="text" id="countyInput" onkeyup="countyFunction()" placeholder="Search by county..">
     <br>
     <input class="form-control px-5 mr-3" type="text" id="saleInput" onkeyup="saleFunction()" placeholder="Search by sale..">
     <br>
-</div>
-<table class="table table-dark px-auto" id="productsTable">
+</div> -->
+
+<div class="m-5 px-auto">
+<table id="productsTable" class="display" style="width:100%">
 
     <thead>
         <tr>
@@ -47,87 +50,65 @@ $this->title = 'Mahindi Online | Users';
                 <td class="px-5"><?php echo $product->price; ?></td>
                 <td class="px-5"><?php echo $product->description; ?></td>
                 <td class="px-5"><?php echo $product->stock; ?></td>
-                <td class="px-5"><?php if($product->on_sale == 0){echo ("No");} 
-                        if($user->role_id == 1){echo ("Yes");} 
-                ?></td>
+                <td class="px-5"><?php if ($product->on_sale == 0) {
+                                        echo ("No");
+                                    }
+                                    if ($user->role_id == 1) {
+                                        echo ("Yes");
+                                    }
+                                    ?></td>
                 <td class="px-5"><?php echo $product->user->county->county_name; ?></td>
             </tr>
         <?php endforeach ?>
     </tbody>
 </table>
-<!-- end of users table -->
-
-
-<!-- logo carousel -->
-<div class="logo-carousel-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="logo-carousel-inner">
-                    <div class="single-logo-item">
-                        <img src="/assets/img/company-logos/1.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="/assets/img/company-logos/2.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="/assets/img/company-logos/3.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="/assets/img/company-logos/4.png" alt="">
-                    </div>
-                    <div class="single-logo-item">
-                        <img src="/assets/img/company-logos/5.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
-<!-- end logo carousel -->
+<!-- end of products table -->
+
+
 
 <script>
-function countyFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("countyInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("productsTable");
-  tr = table.getElementsByTagName("tr");
+    function countyFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("countyInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("productsTable");
+        tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[5];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[5];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
     }
-  }
-}
 
-function saleFunction() {
-  // Declare variables
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("saleInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("productsTable");
-  tr = table.getElementsByTagName("tr");
+    function saleFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("saleInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("productsTable");
+        tr = table.getElementsByTagName("tr");
 
-  // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[4];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[4];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
     }
-  }
-}
 </script>

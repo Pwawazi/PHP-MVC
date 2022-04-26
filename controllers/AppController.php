@@ -280,6 +280,148 @@ class AppController extends Controller
         ]);
     }
 
+
+    /**
+     * 
+     * Add a product function
+     * 
+     */
+    public function editProduct(Request $request)
+    {
+        $user = Application::$app->user();
+        $params = $request->getRouteParams();
+        $products = Product::all();
+        $errors = array();
+        $input = [];
+        
+
+        if (Application::$app->isGuest())
+        {
+            return $this->render('home');
+        }
+
+        try 
+        {
+            $product = Product::findOrFail(intval($params['id']));
+        } 
+        catch (ModelNotFoundException $ex) 
+        {
+            Application::$app->session->setFlash('danger', 'No such product!');
+            return $this->render('shop', [
+                'user' => $user,
+                'products' => $products
+            ]);
+        }
+
+        if($user != $product->user)
+            {
+                return Application::$app->response->redirect('/'); 
+            }
+
+        if($request->isPost())
+        {
+            Application::$app->request->getBody();
+
+            $product_name =  $request->getBody()['product'];
+            $user_id =  number_format($request->getBody()['user']);
+            $price =  $request->getBody()['price'];
+            $stock =  $request->getBody()['stock'];
+            $description = $request->getBody()['description'];
+            $product_image = $_FILES['product_image']['name'];
+            $image_width = (@getimagesize($_FILES['product_image']['tmp_name']))[0];
+            $image_height = (@getimagesize($_FILES['product_image']['tmp_name']))[1];
+
+            if(!$product_name)
+            {
+                $errors['product_name'] = 'This field is required!';
+                $input['user_id'] = $user_id;
+                $input['price'] = $price ?? '';
+                $input['stock'] = $stock ?? '';
+                $input['description'] = $description ?? '';
+            }
+
+            if(!$user_id)
+            {
+                return Application::$app->response->redirect('/logout');
+            }
+
+            if(!$price)
+            {
+                $errors['price'] = 'This field is required!';
+                $input['user_id'] = $user_id;
+                $input['product_name'] = $product_name ?? '';
+                $input['stock'] = $stock ?? '';
+                $input['description'] = $description ?? '';
+            }
+
+            if(!$stock)
+            {
+                $errors['stock'] = 'This field is required!';
+                $input['user_id'] = $user_id;
+                $input['price'] = $price ?? '';
+                $input['product_name'] = $product_name ?? '';
+                $input['description'] = $description ?? '';
+            }
+
+            if(!$product_image)
+            {
+                $errors['product_image'] = 'This field is required!';
+                $input['user_id'] = $user_id;
+                $input['price'] = $price ?? '';
+                $input['stock'] = $stock ?? '';
+                $input['product_name'] = $product_name ?? '';
+                $input['description'] = $description ?? '';
+            }
+
+            if($image_width > "900" || $image_height > "800")
+            {
+                $errors['product_image'] = 'Image dimensions should be within 800X800';
+                $input['user_id'] = $user_id;
+                $input['price'] = $price ?? '';
+                $input['stock'] = $stock ?? '';
+                $input['product_name'] = $product_name ?? '';
+                $input['description'] = $description ?? '';
+            }
+
+            if(sizeof($errors) == 0)
+            {
+                $image_name = $_FILES['product_image']['name'];
+                $tmp_name = $_FILES['product_image']['tmp_name'];
+                $path = pathinfo($image_name);
+                $filename = $path['filename'];
+                $folder = Application::$ROOT_DIR."/public/product_images/";
+                $ext = $path['extension'];
+                date_default_timezone_set('Africa/Nairobi');
+                $date = date('Y-m-d H:i:s');
+                $path_filename_ext = $folder.$date.'.'.$filename.'.'.$ext;
+                $folder = Application::$ROOT_DIR."/public/product_images/";
+                move_uploaded_file($tmp_name, $path_filename_ext);
+
+
+                $product->product_name = $product_name;
+                $product->price = $price;
+                $product->product_image_name = $date.'.'.$filename.'.'.$ext;
+                $product->description = $description;
+                $product->stock = $stock;
+                $product->save();
+
+                Application::$app->session->setFlash('success', 'Product edited successfully!');
+                return Application::$app->response->redirect('/');   
+            }
+        }
+
+        // echo('<pre>');
+        // echo(var_dump($product->product_name));
+        // echo('</pre>');
+        // exit();
+        return $this->render('product_edit', [
+            'user' => $user,
+            'errors' => $errors,
+            'input' => $input,
+            'product' => $product
+        ]);
+    }
+
     /**
      * 
      * Return the cart page
@@ -376,8 +518,8 @@ class AppController extends Controller
             $phpmailer->Host = 'smtp.mailtrap.io';
             $phpmailer->SMTPAuth = true;
             $phpmailer->Port = 2525;
-            $phpmailer->Username = Application::$mailtrapUsername;
-            $phpmailer->Password = Application::$mailtrapPassword;  
+            $phpmailer->Username = $_ENV['MAILTRAPUSERNAME'];
+            $phpmailer->Password = $_ENV['MAILTRAPPASSWORD'];  
             $phpmailer->setFrom('support@mahindionline.com', 'Mahindi Online');           
             $phpmailer->addAddress($to, $vendor->firstname);
             $phpmailer->isHTML(true);                                  

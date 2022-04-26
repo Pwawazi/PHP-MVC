@@ -57,7 +57,7 @@ $this->title = 'Mahindi Online | Contact';
 					</div>
 					<div class="contact-form-box">
 						<h4><i class="fas fa-address-book"></i> Contact</h4>
-						<p>Phone: +00 111 222 3333 <br> Email: support@fruitkha.com</p>
+						<p>Phone: +00 111 222 3333 <br> Email: support@mahindionline.com</p>
 					</div>
 				</div>
 			</div>

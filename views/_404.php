@@ -209,7 +209,7 @@ use app\base\Application;
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
 							<li>Tom Mboya Street, Nairobi.</li>
-							<li>support@fruitkha.com</li>
+							<li>support@mahindionline.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>
 					</div>

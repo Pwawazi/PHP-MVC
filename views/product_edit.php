@@ -12,7 +12,7 @@ $this->title = 'Farmland | Add Product';
 			<div class="col-lg-8 offset-lg-2 text-center">
 				<div class="breadcrumb-text">
 					<h1>Products</h1>
-					<p>Add a product</p>
+					<p>Edit a product</p>
 				</div>
 			</div>
 		</div>
@@ -27,8 +27,8 @@ $this->title = 'Farmland | Add Product';
 
 			<div class="col-lg-8 mb-5 mb-lg-0">
 				<div class="form-title">
-					<h2>Have a product to add?</h2>
-					<p>Please do add a farm product and follow the guidelines</p>
+					<h2>Want to edit some product details?</h2>
+					<p>Edit your farm product and follow the guidelines</p>
 
 					<?php if (Application::$app->session->getFlash('success')) : ?>
 						<div class="alert alert-warning my-3 rounded-pill">
@@ -48,7 +48,7 @@ $this->title = 'Farmland | Add Product';
 					<form method="POST" action="" enctype="multipart/form-data">
 						<p>
 						<div class="input-group mb-3">
-							<input type="text" name="product" value="<?php echo $input['product_name'] ?>" class="form-control" placeholder="Product Name" aria-label="product_name" aria-describedby="inputGroup-sizing-default">
+							<input type="text" name="product" value="<?php echo ($product->product_name) ?>" class="form-control" aria-label="product_name" aria-describedby="inputGroup-sizing-default">
 							<div class="text-danger p-2">
 								<small><?php echo ($errors['product_name']) ?></small>
 							</div>
@@ -61,7 +61,7 @@ $this->title = 'Farmland | Add Product';
 								<span class="input-group-text" id="inputGroupFileAddon01">Product Image: </span>
 							</div>
 							<div class="custom-file">
-								<input type="file" name="product_image" accept=".jpg, .jpeg, .png" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+								<input type="file" name="product_image" accept=".jpg, .jpeg, .png" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required>
 								<label class="custom-file-label" for="inputGroupFile01">Choose file</label>
 							</div>
 							<div class="text-danger p-2">
@@ -70,13 +70,13 @@ $this->title = 'Farmland | Add Product';
 						</div>
 						</p>
 						<p>
-							<input type="number" placeholder="Price" name="price" value="<?php echo $input['price'] ?>" id="price">
+							<input type="number" placeholder="Price" name="price" value="<?php echo ($product->price) ?>" id="price">
 							<small class="text-danger p-2"><?php echo ($errors['price']) ?></small>
 
-							<input type="number" placeholder="Stock" name="stock" value="<?php echo $input['stock'] ?>" id="stock">
+							<input type="number" placeholder="Stock" name="stock" value="<?php echo ($product->stock) ?>" id="stock">
 							<small class="text-danger p-2"><?php echo ($errors['stock']) ?></small>
 						</p>
-						<p><textarea name="description" value="<?php echo $input['description'] ?>" id="description" cols="30" rows="10" placeholder="Product description"></textarea></p>
+						<p><textarea name="description" value="<?php echo ($product->description) ?>" id="description" cols="30" rows="10" placeholder="Product description"></textarea></p>
 						<!-- <input type="hidden" name="token" value="FsWga4&@f6aw" /> -->
 						<p><input type="submit" value="Submit"></p>
 					</form>

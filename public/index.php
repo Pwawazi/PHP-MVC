@@ -23,6 +23,7 @@ $routeList = array(
         '/profile', '/profile/{id:\d+}/{username}' => [AuthController::class, 'profile'], 
         '/shop', '/shop/{id}' => [AppController::class, 'shop'], 
         '/add-product' => [AppController::class, 'addProduct'], 
+        '/edit-product', '/edit-product/{id}' => [AppController::class, 'editProduct'], 
         '/cart' => [AppController::class, 'cart'], 
         '/users' => [AppController::class, 'users'],
         '/products-list' => [AppController::class, 'products_list'],
@@ -31,13 +32,8 @@ $routeList = array(
 );
 
 
-$mailtrapUsername = $_ENV['MAILTRAPUSERNAME'];
-$mailtrapPassword = $_ENV['MAILTRAPPASSWORD'];
-$recaptcha_key = $_ENV['RECAPTCHA_V3_SECRET_KEY'];
-$recaptcha_site_key = $_ENV['RECAPTCHA_V3_SITE_KEY'];
 
-
-$app = new Application(dirname(__DIR__), $config, $routeList, $mailtrapUsername, $mailtrapPassword, $recaptcha_key, $recaptcha_site_key);
+$app = new Application(dirname(__DIR__), $config, $routeList);
 
 $app->router->get('/', [AppController::class, 'home']);
 
@@ -56,6 +52,8 @@ $app->router->post('/shop', [AppController::class, 'shop']);
 $app->router->get('/shop/{id:\d+}', [AppController::class, 'shop']);
 $app->router->get('/add-product', [AppController::class, 'addProduct']);
 $app->router->post('/add-product', [AppController::class, 'addProduct']);
+$app->router->get('/edit-product/{id:\d+}', [AppController::class, 'editProduct']);
+$app->router->post('/edit-product', [AppController::class, 'editProduct']);
 $app->router->get('/cart', [AppController::class, 'cart']);
 $app->router->get('/users', [AppController::class, 'users']);
 $app->router->get('/users-json', [AppController::class, 'usersJson']);

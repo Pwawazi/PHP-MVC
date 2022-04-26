@@ -37,7 +37,7 @@ $this->title = 'Mahindi Online | Shop';
                 </div>
             </div>
 
-			<div class="row product-lists">
+			<div class="row">
 			<?php foreach ($products as $product) : ?>
 				<?php echo '<div class="col-lg-4 col-md-6 text-center '.$product->user_id.'">'; ?>
 					<div class="single-product-item">
@@ -109,7 +109,7 @@ $this->title = 'Mahindi Online | Shop';
 
 			</div>
 
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="pagination-wrap">
 						<ul>
@@ -121,7 +121,7 @@ $this->title = 'Mahindi Online | Shop';
 						</ul>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<!-- end products -->

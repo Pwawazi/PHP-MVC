@@ -167,7 +167,7 @@ use app\base\Application;
 				<div class="col-lg-3 col-md-6">
 					<div class="footer-box about-widget">
 						<h2 class="widget-title">About us</h2>
-						<p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+						<p>Mahindi Online is the best place for maize farmers to show their product and et in touch with their customers</p>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
@@ -175,7 +175,7 @@ use app\base\Application;
 						<h2 class="widget-title">Get in Touch</h2>
 						<ul>
 							<li>Tom Mboya Street, Nairobi.</li>
-							<li>support@fruitkha.com</li>
+							<li>support@mahindionline.com</li>
 							<li>+00 111 222 3333</li>
 						</ul>
 					</div>
